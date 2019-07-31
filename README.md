@@ -1,7 +1,7 @@
 ### UFSC - CTC - INE - INE5646 Programação para Web
 # App Config reac 
 
-Aplicação para demonstrar quais são os arquivos de confiração, no lado cliente e no lado servidor, que toda aplicação baseada em React, Bulma e Flow.
+Aplicação para demonstrar quais são os arquivos de configuração, no lado cliente e no lado servidor, que toda aplicação baseada em React, Bulma e Flow deve ter.
 
 
 
