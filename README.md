@@ -51,7 +51,7 @@ Para gerar a versão em produção do lado cliente entre no diretório **cliente
 
 `npm run build`
 
-Observe que o tamanho do arquivo *bundle.js* diminui drasticamente de tamanho.
+Observe que o tamanho dos arquivos JavaScript armazenados no diretório *servidor/publico* diminuiram drasticamente de tamanho.
 
 #### Lado Servidor
 
