@@ -66,10 +66,11 @@ function App () {
           {estado.quando !== undefined && <h2>{estado.quando}</h2>}
           <h1>{estado.nome}</h1>
           <input 
+            className='input is-danger'
             type='text' 
             value={estado.nome} 
             onChange={ev => dispatch({type: 'REGISTRE_NOME', nome: ev.target.value})}/>
-          <button onClick={() => dispatch({type: 'APAGUE_NOME'})}>Apagar</button>
+          <button className='button is-success' onClick={() => dispatch({type: 'APAGUE_NOME'})}>Apagar</button>
         </div>
       </div>
     </div>
