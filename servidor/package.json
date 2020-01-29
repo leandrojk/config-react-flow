@@ -1,7 +1,7 @@
 {
   "name": "config-react-bulma-flow_servidor",
   "version": "1.0.0",
-  "description": "Aplicação exemplo configuração lado servidro.",
+  "description": "Aplicação exemplo configuração lado servidor.",
   "scripts": {
     "start": "nodemon --exec npx babel-node src/app.js",
     "build": "babel src -d build",
@@ -15,19 +15,19 @@
   "author": "Leandro J. Komosinski",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
-    "@babel/core": "^7.6.0",
-    "@babel/node": "^7.6.1",
-    "@babel/preset-env": "^7.6.0",
-    "@babel/preset-flow": "^7.0.0",
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-flow": "^7.8.3",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.4.0",
-    "eslint-plugin-flowtype": "^4.3.0",
-    "flow-bin": "^0.108.0",
-    "nodemon": "^1.19.2"
+    "eslint": "^6.8.0",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "flow-bin": "^0.117.0",
+    "nodemon": "^2.0.2"
   }
 }

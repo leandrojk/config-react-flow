@@ -18,7 +18,7 @@ type Dispatch = Acao => void
 type Modelo = [Estado, Dispatch]
 
 
-const estadoInicial = {
+const estadoInicial: Estado = {
   nome: '',
   quando: undefined
 }
