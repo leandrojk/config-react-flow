@@ -2,7 +2,7 @@
     "settings": {
         "react": {
             "version": "detect",
-            "flowVersion": "0.102.0"
+            "flowVersion": "0.127.0"
         }
     },
     "parser": "babel-eslint",
