@@ -3,9 +3,13 @@ import React, {useReducer, useEffect} from 'react'
 
 import 'bulma/css/bulma.min.css'
 
+import Login from './Login.jsx'
+import Detalhes from './Detalhes.jsx'
+
 type Estado = {|
   login: string,
   minimo: 3,
+  maximo: 10,
   quando: string | void
 |}
 
@@ -16,7 +20,8 @@ type Acao =
 
 type AlteraEstado = {| 
   apagaLogin: void => void, 
-  registraLogin: string => void 
+  registraLogin: string => void,
+  loginValido: void => boolean 
 |}
 
 type Modelo = [Estado, AlteraEstado]
@@ -26,6 +31,7 @@ type Modelo = [Estado, AlteraEstado]
 const estadoInicial: Estado = {
   login: '',
   minimo: 3,
+  maximo: 10,
   quando: undefined
 }
 
@@ -62,18 +68,18 @@ function useModelo(): Modelo {
     dispatch({type: 'REGISTRE_LOGIN', login})
   }
 
-  return [estado, {apagaLogin, registraLogin}]
+  function loginValido() {
+    return estado.login.length >= estado.minimo && estado.login.length <= estado.maximo
+  }
+
+  return [estado, {apagaLogin, registraLogin, loginValido}]
 }
 
 
-function App() {
-  const [estado, {apagaLogin, registraLogin}] = useModelo()
-  
-  const loginValido = estado.login.length >= estado.minimo
 
-  const corInput: string = !loginValido ? 
-    'input is-danger has-background-danger-light' : 
-    'input is-info'
+function App() {
+  const [estado, {apagaLogin, registraLogin, loginValido}] = useModelo()
+  
 
   return (
     <div className='container is-fluid'>
@@ -82,34 +88,19 @@ function App() {
             UFSC - CTC - INE - INE5646 :: Config React - Bulma - Flow
         </div>
         <div className='message-body has-background-grey-light'>
-          {
-            estado.quando !== undefined && 
-            <h3 className='is-size-3'>Iniciado em: {estado.quando}</h3>
-          }
-          {
-            estado.login.length === 0 &&
-            <h3 className='is-size-3'>Login informado: sem login definido</h3>
-          }
-          {
-            estado.login.length > 0 &&
-            <h1 className='is-size-1'>Login informado: {estado.login}</h1>
-          }
-          {
-            loginValido &&
-            <h2 className='is-size-2'>Tamanho: {estado.login.length}</h2>
-          } 
-          <input 
-            className={corInput}
-            placeholder='digite seu login'
-            type='text' 
-            value={estado.login} 
-            onChange={ev => registraLogin(ev.target.value)}/>
-          <button 
-            className='button is-success' 
-            disabled={estado.login.length < estado.minimo}
-            onClick={apagaLogin}>
-            Apagar
-          </button>
+          <Login 
+            loginAtual={estado.login}
+            loginValido={loginValido()}
+            onApagaLogin={apagaLogin}
+            onMudaLogin={registraLogin}
+          />
+          <Detalhes
+            minimo={estado.minimo}
+            maximo={estado.maximo}
+            login={estado.login}
+            loginValido={loginValido()}
+            quando={estado.quando}
+          />
         </div>
       </div>
     </div>
