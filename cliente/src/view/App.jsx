@@ -6,17 +6,29 @@ import 'bulma/css/bulma.min.css'
 import Login from './Login.jsx'
 import Detalhes from './Detalhes.jsx'
 
-type Estado = {|
-  login: string,
-  minimo: 3,
-  maximo: 10,
-  quando: string | void
+type Estado = E1 | E2 | E3
+
+type E1 = {| sit: 'CARREGANDO' |} 
+
+type Limites = {| min: number, max: number |}
+
+type E2 = {| 
+  sit: 'PRONTO', 
+  login: string, 
+  limites: Limites,
+  quando: string
+|}
+
+type E3 = {|
+  sit: 'ERRO',
+  msg: string
 |}
 
 type Acao =
     {| type: 'REGISTRE_LOGIN', login: string |}
   | {| type: 'APAGUE_LOGIN' |}
-  | {| type: 'REGISTRE_INICIO', quando: string |}
+  | {| type: 'REGISTRE_INICIO', quando: string, limites: Limites |}
+  | {| type: 'REGISTRE_ERRO', msg: string |}
 
 type AlteraEstado = {| 
   apagaLogin: void => void, 
@@ -28,23 +40,26 @@ type Modelo = [Estado, AlteraEstado]
 
 
 
-const estadoInicial: Estado = {
-  login: '',
-  minimo: 3,
-  maximo: 10,
-  quando: undefined
+const estadoInicial: E1 = {
+  sit: 'CARREGANDO'
 }
 
 function reducer(estado: Estado, acao: Acao): Estado {
   switch (acao.type) {
   case 'REGISTRE_LOGIN':
-    return {...estado, login: acao.login.trim()}
+    return estado.sit === 'PRONTO'
+      ? {...estado, login: acao.login.trim()}
+      : {sit: 'ERRO', msg: 'Erro de programação: 01'}
 
   case 'APAGUE_LOGIN':
-    return {...estado, login: ''}
+    return estado.sit === 'PRONTO'
+      ? {...estado, sit: 'PRONTO', login: ''}
+      : {sit: 'ERRO', msg: 'Erro de programação: 02'}
 
   case 'REGISTRE_INICIO':
-    return {...estado, quando: acao.quando}
+    return estado.sit === 'CARREGANDO'
+      ? { sit: 'PRONTO', login: '', limites: acao.limites, quando: acao.quando}
+      : {sit: 'ERRO', msg: 'Erro de programação: 03'}
 
   default:
     throw new Error(`acao.type inválido: ${acao.type}`)
@@ -56,8 +71,13 @@ function useModelo(): Modelo {
   const [estado, dispatch] = useReducer<Estado,Acao>(reducer, estadoInicial)
 
   useEffect(() => {
-    const quando = new Date().toLocaleTimeString()
-    dispatch({type: 'REGISTRE_INICIO', quando})
+    fetch('/limites')
+      .then(r => r.json())
+      .then((limites: Limites) => {
+        const quando = new Date().toLocaleTimeString()
+        dispatch({type: 'REGISTRE_INICIO', quando, limites})
+      })
+      .catch( (e: Error) => dispatch({type: 'REGISTRE_ERRO', msg: e.message}))
   }, [])
 
   function apagaLogin() {
@@ -69,7 +89,9 @@ function useModelo(): Modelo {
   }
 
   function loginValido() {
-    return estado.login.length >= estado.minimo && estado.login.length <= estado.maximo
+    return estado.sit === 'PRONTO' &&
+      estado.login.length >= estado.limites.min && 
+      estado.login.length <= estado.limites.max
   }
 
   return [estado, {apagaLogin, registraLogin, loginValido}]
@@ -88,19 +110,35 @@ function App() {
             UFSC - CTC - INE - INE5646 :: Config React - Bulma - Flow
         </div>
         <div className='message-body has-background-grey-light'>
-          <Login 
-            loginAtual={estado.login}
-            loginValido={loginValido()}
-            onApagaLogin={apagaLogin}
-            onMudaLogin={registraLogin}
-          />
-          <Detalhes
-            minimo={estado.minimo}
-            maximo={estado.maximo}
-            login={estado.login}
-            loginValido={loginValido()}
-            quando={estado.quando}
-          />
+          {
+            estado.sit === 'CARREGANDO' &&
+            <div className='notification has-background-warning-light'>
+              <span className='is-size-2'>Carregando. Aguarde...</span>
+            </div>
+          }
+          {
+            estado.sit === 'ERRO' &&
+            <div className= 'notification has-background-danger-dark'>
+              <span className='is-size-2'>{estado.msg}</span>
+            </div>
+          }
+          {
+            estado.sit === 'PRONTO' &&
+            <div>
+              <Login 
+                loginAtual={estado.login}
+                loginValido={loginValido()}
+                onApagaLogin={apagaLogin}
+                onMudaLogin={registraLogin}
+              />
+              <Detalhes
+                limites={estado.limites}
+                login={estado.login}
+                loginValido={loginValido()}
+                quando={estado.quando}
+              />
+            </div>
+          }
         </div>
       </div>
     </div>

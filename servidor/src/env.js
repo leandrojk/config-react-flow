@@ -7,7 +7,7 @@ dotenv.config()
 // Variáveis de ambiente, acessadas via process.env, devem ser
 // definidas no arquivo .env.
 
-// verificar se todas as variáveis de ambiestão definidas
+// verifica se todas as variáveis de ambiestão definidas
 
 let todasDefinidas = true
 
@@ -19,3 +19,7 @@ if (process.env.PORTA === undefined) {
 if (!todasDefinidas) {
   process.exit(1)
 }
+
+const PORTA: number = parseInt(process.env.PORTA, 10)
+
+export {PORTA}
