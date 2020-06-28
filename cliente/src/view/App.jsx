@@ -61,6 +61,9 @@ function reducer(estado: Estado, acao: Acao): Estado {
       ? { sit: 'PRONTO', login: '', limites: acao.limites, quando: acao.quando}
       : {sit: 'ERRO', msg: 'Erro de programação: 03'}
 
+  case 'REGISTRE_ERRO':
+    return {sit: 'ERRO', msg: acao.msg}
+
   default:
     throw new Error(`acao.type inválido: ${acao.type}`)
   }
@@ -72,6 +75,11 @@ function useModelo(): Modelo {
 
   useEffect(() => {
     fetch('/limites')
+      .then(r => {
+        if (!r.ok)
+          throw new Error('ERRO: Falha na comunicação com servidor. Tente mais tarde.')
+        return r
+      })
       .then(r => r.json())
       .then((limites: Limites) => {
         const quando = new Date().toLocaleTimeString()
@@ -119,7 +127,7 @@ function App() {
           {
             estado.sit === 'ERRO' &&
             <div className= 'notification has-background-danger-dark'>
-              <span className='is-size-2'>{estado.msg}</span>
+              <span className='is-size-2 has-text-white'>{estado.msg}</span>
             </div>
           }
           {
