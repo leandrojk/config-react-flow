@@ -9,7 +9,7 @@
           "useBuiltIns": "usage",
           "debug": true,
           "corejs": 3,
-          "targets": "last 2 versions, not dead, > 20%"
+          "targets": "last 2 versions, not dead, not IE 11, > 20%"
         }
       ],
       [
