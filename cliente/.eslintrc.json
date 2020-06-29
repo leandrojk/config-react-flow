@@ -1,5 +1,8 @@
 {
     "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": true
+        },
         "react": {
             "version": "detect",
             "flowVersion": "0.127.0"
@@ -8,7 +11,7 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "es6": true
+        "es2020": true
     },
     "extends": [
         "eslint:recommended", 
@@ -19,7 +22,7 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 2018,
+        "ecmaVersion": 2020,
         "sourceType": "module"
     },
     "plugins": [

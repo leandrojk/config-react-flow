@@ -1,10 +1,10 @@
 {
     "presets": [
       [
-        "@babel/preset-flow"
+        "@babel/flow"
       ],
       [
-        "@babel/preset-env",
+        "@babel/env",
         {
           "useBuiltIns": "usage",
           "debug": true,
@@ -15,7 +15,5 @@
       [
           "@babel/preset-react"
       ]
-    ],
-
-    "plugins": ["@babel/plugin-transform-runtime"]
+    ]
   }
