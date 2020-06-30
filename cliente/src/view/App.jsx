@@ -1,16 +1,15 @@
 // @flow
+import type {Limites} from '../model/servicos.js'
+
 import React, {useReducer, useEffect} from 'react'
-
 import 'bulma/css/bulma.min.css'
-
 import Login from './Login.jsx'
 import Detalhes from './Detalhes.jsx'
+import obtemLimites from '../model/servicos.js'
 
 type Estado = E1 | E2 | E3
 
 type E1 = {| sit: 'CARREGANDO' |} 
-
-type Limites = {| min: number, max: number |}
 
 type E2 = {| 
   sit: 'PRONTO', 
@@ -74,13 +73,7 @@ function useModelo(): Modelo {
   const [estado, dispatch] = useReducer<Estado,Acao>(reducer, estadoInicial)
 
   useEffect(() => {
-    fetch('/limites')
-      .then(r => {
-        if (!r.ok)
-          throw new Error('ERRO: Falha na comunicação com servidor. Tente mais tarde.')
-        return r
-      })
-      .then(r => r.json())
+    obtemLimites()
       .then((limites: Limites) => {
         const quando = new Date().toLocaleTimeString()
         dispatch({type: 'REGISTRE_INICIO', quando, limites})

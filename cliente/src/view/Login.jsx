@@ -12,9 +12,12 @@ type Props = {|
 
 export default function Login (props: Props) {
 
-  const corInput: string = !props.loginValido ? 
-    'input is-danger has-background-danger-light' : 
-    'input is-info'
+  const corInput: string = props.loginValido ? 
+    'input is-info' :
+    props.loginAtual.length === 0 ?
+      'input is-danger has-background-danger-light' :
+      'input is-warning has-background-warning-light'
+
 
   function onChange(ev: SyntheticInputEvent<HTMLInputElement>) {
     props.onMudaLogin(ev.currentTarget.value)
