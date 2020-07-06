@@ -1,7 +1,6 @@
 {
     "flow.useNPMPackagedFlow": true,
     "flow.pathToFlow": "${workspaceFolder}/cliente/node_modules/.bin/flow",
-    "javascript.validate.enable": false,
     "eslint.workingDirectories": [
         {
           "directory": "./cliente", "changeProcessCWD": true
