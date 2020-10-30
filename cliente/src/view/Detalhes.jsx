@@ -8,7 +8,9 @@ type Props = {|
   loginValido: boolean
 |}
 
-const Detalhes = (props: Props) => {
+type Componente = (props: Props) => React$Element<"div">
+
+const Detalhes: Componente = (props: Props) => {
   const corMessage = props.login.length === 0 ? 
     'message is-danger' : props.loginValido ? 
       'message is-link' : 'message is-warning'
@@ -48,4 +50,4 @@ const Detalhes = (props: Props) => {
   )
 }
 
-export default Detalhes
+export default Detalhes 

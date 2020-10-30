@@ -10,7 +10,7 @@ type Props = {|
 |}
 
 
-export default function Login (props: Props) {
+export default function Login (props: Props): React$Element<"div"> {
 
   const corInput: string = props.loginValido ? 
     'input is-info' :

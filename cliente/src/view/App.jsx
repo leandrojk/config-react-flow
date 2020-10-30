@@ -100,7 +100,7 @@ function useModelo(): Modelo {
 
 
 
-function App() {
+function App(): React$Element<"div"> {
   const [estado, {apagaLogin, registraLogin, loginValido}] = useModelo()
   
 
