@@ -5,7 +5,7 @@
         },
         "react": {
             "version": "detect",
-            "flowVersion": "0.137.0"
+            "flowVersion": "0.138.0"
         }
     },
     "parser": "babel-eslint",
